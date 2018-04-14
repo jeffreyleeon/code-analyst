@@ -11,6 +11,41 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 import code_analyst
 import lib.common.constants as constants
 
+class TestIsValidConfig(object):
+
+    def test_invalid_input_type(self):
+        with pytest.raises(Exception):
+            code_analyst.is_valid_config(None)
+        with pytest.raises(Exception):
+            code_analyst.is_valid_config(False)
+        with pytest.raises(Exception):
+            code_analyst.is_valid_config(1)
+        with pytest.raises(Exception):
+            code_analyst.is_valid_config('str')
+        with pytest.raises(Exception):
+            code_analyst.is_valid_config([])
+        with pytest.raises(Exception):
+            code_analyst.is_valid_config({'a': 1})
+
+    def test_config_validity(self):
+        assert code_analyst.is_valid_config({
+            'operation_type': None,
+            'github_url': None
+        }) == False
+        assert code_analyst.is_valid_config({
+            'operation_type': 'some',
+            'github_url': None
+        }) == False
+        assert code_analyst.is_valid_config({
+            'operation_type': None,
+            'github_url': 'some'
+        }) == False
+        assert code_analyst.is_valid_config({
+            'operation_type': 'some',
+            'github_url': 'some'
+        }) == True
+
+
 class TestParseConfig(object):
 
     def test_unknow_params(self):

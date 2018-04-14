@@ -14,6 +14,11 @@ config = {
     'github_url': None
 }
 
+def is_valid_config(_config):
+    return \
+            _config['operation_type'] is not None and \
+            _config['github_url'] is not None
+
 def parse_config(opt_params):
     opts, args = getopt.getopt(opt_params, 'h', ['url=', 'operation-type='])
     for opt, arg in opts:

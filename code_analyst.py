@@ -10,7 +10,7 @@ from common.type_validator import ArrayValidator as array_validator
 import common.constants as constants
 
 config = {
-    'operation_type': None,
+    'operation_type': 'all',
     'github_url': None
 }
 
@@ -38,8 +38,8 @@ def parse_config(opt_params):
 def usage():
     print "python populate_throttle_devices.py --url github_https_url/--operation-type operation_type/-h"
     print "     -h                  Print this message"
-    print "     --url               github url in https, e.g. https://github.com/jeffreyleeon/code-analyst"
-    print "     --operation-type    operation types, one of {}".format(constants.CODE_ANALYST_OPT_TYPES.values())
+    print "     --url               github url in https, e.g. https://github.com/jeffreyleeon/code-analyst (required)"
+    print "     --operation-type    operation types, one of {}, default 'all'".format(constants.CODE_ANALYST_OPT_TYPES.values())
 
 def main(opt_params):
     try:
@@ -47,6 +47,9 @@ def main(opt_params):
     except Exception as err:
         print('Failed when parsing params {}\n'.format(err))
         usage()
+        sys.exit(2)
+    if is_valid_config(config) == False:
+        print('Missing required config params, please check help(-h) message.')
         sys.exit(2)
     print('===what is config {}'.format(config))
     pass
